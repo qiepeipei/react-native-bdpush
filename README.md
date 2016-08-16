@@ -153,6 +153,8 @@ react-native百度云推送
     }
 
 	
+	
+# npm install react-native-bdpush
 ####android配置
 1. 设置 `android/setting.gradle`
 
