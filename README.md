@@ -4,11 +4,19 @@ react-native百度云推送
 - `penetrateEvent` - 监听透传消息
     - `@param` - Function - 回调函数
     	- `@param` - String - 消息内容
+
+
 # 
+
+
 - `pushEvent` - 监听通知栏点击
     - `@param` - Function - 回调函数
         - `@param` - String - 消息内容
+        
+        
 # 
+        
+        
 - `bindChannelWithCompleteHandler` - 重新启动推送
     - `@param` - Function - 回调函数
         - `@param` - int - 状态
