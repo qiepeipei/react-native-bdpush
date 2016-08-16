@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.baidupush">
+          package="com.example.baidupush">
 
     <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="22" />
+            android:minSdkVersion="16"
+            android:targetSdkVersion="22" />
 
 
 
@@ -26,20 +26,20 @@
 
 
     <application android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true">
+                 android:label="@string/app_name"
+                 android:supportsRtl="true">
 
         <!-- push富媒体，使用富媒体推送必须声明 -->
         <activity
-            android:name="com.baidu.android.pushservice.richmedia.MediaViewActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="MediaViewActivity" >
+                android:name="com.baidu.android.pushservice.richmedia.MediaViewActivity"
+                android:configChanges="orientation|keyboardHidden"
+                android:label="MediaViewActivity" >
         </activity>
         <activity
-            android:name="com.baidu.android.pushservice.richmedia.MediaListActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="MediaListActivity"
-            android:launchMode="singleTask" >
+                android:name="com.baidu.android.pushservice.richmedia.MediaListActivity"
+                android:configChanges="orientation|keyboardHidden"
+                android:label="MediaListActivity"
+                android:launchMode="singleTask" >
         </activity>
         <!-- push富媒体结束 -->
 
@@ -57,8 +57,8 @@
 
         <!-- push必须的receviver和service声明 -->
         <receiver
-            android:name="com.baidu.android.pushservice.PushServiceReceiver"
-            android:process=":bdservice_v1" >
+                android:name="com.baidu.android.pushservice.PushServiceReceiver"
+                android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -72,8 +72,8 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.baidu.android.pushservice.RegistrationReceiver"
-            android:process=":bdservice_v1" >
+                android:name="com.baidu.android.pushservice.RegistrationReceiver"
+                android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.METHOD" />
                 <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
@@ -87,39 +87,39 @@
 
 
         <service
-            android:name="com.baidu.android.pushservice.PushService"
-            android:exported="true"
-            android:process=":bdservice_v1" >
+                android:name="com.baidu.android.pushservice.PushService"
+                android:exported="true"
+                android:process=":bdservice_v1" >
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
             </intent-filter>
         </service>
         <service
-            android:name="com.baidu.android.pushservice.CommandService"
-            android:exported="true" />
+                android:name="com.baidu.android.pushservice.CommandService"
+                android:exported="true" />
 
         <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名-->
         <provider
-            android:name="com.baidu.android.pushservice.PushInfoProvider"
-            android:authorities="com.rn31"
-            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.rn31"
-            android:exported="true" />
+                android:name="com.baidu.android.pushservice.PushInfoProvider"
+                android:authorities="当前项目包名"
+                android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.当前项目包名"
+                android:exported="true" />
 
 
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data
-            android:name="api_key"
-            android:value="lRh9hw5sF9PwCbO9tl7xNaDx" />
+                android:name="api_key"
+                android:value="你的ApiKey" />
 
 
 
     </application>
 
     <!-- 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名-->
-    <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.rn31" />
+    <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.当前项目包名" />
     <permission
-        android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.rn31"
-        android:protectionLevel="normal">
+            android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.当前项目包名"
+            android:protectionLevel="normal">
     </permission>
 
 </manifest>
