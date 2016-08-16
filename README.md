@@ -200,3 +200,121 @@ react-native百度云推送
 ![Mou icon1](/assets/a2.png)
 
 ![Mou icon1](/assets/a3.png)
+
+###ios配置
+####添加下面这段代码到AppDelegate.m下
+
+   ```
+   
+   #define APPKEY @"当前用户的apiKey"
+   
+   	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:	(NSDictionary *)launchOptions{
+    ...
+	// 注册APNS
+  	[self registerUserNotification];
+  	  [BaiDuPush registerChannel:launchOptions apiKey:APPKEY pushMode:BPushModeDevelopment];
+  
+  [BaiDuPush disableLbs];
+  
+  // App 是用户点击推送消息启动
+  NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+  if (userInfo) {
+    //[BPush handleNotification:userInfo];
+    [BaiDuPush handleNotification:userInfo];
+
+  }
+
+  //角标清0
+  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+  
+
+}
+
+
+	/** 注册用户通知 */
+- (void)registerUserNotification {
+  
+  /*
+   注册通知(推送)
+   申请App需要接受来自服务商提供推送消息
+   */
+  
+  // iOS8 下需要使用新的 API
+  if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+    UIUserNotificationType myTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:myTypes categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+  }else {
+    UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
+  }
+  
+
+}
+
+
+// 此方法是 用户点击了通知，应用在前台 或者开启后台并且应用在后台 时调起
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+  completionHandler(UIBackgroundFetchResultNewData);
+
+  // 应用在前台，不跳转页面，让用户选择。
+  if (application.applicationState == UIApplicationStateActive) {
+    
+    NSDictionary* data = [userInfo objectForKey:@"aps"];
+    NSString* msg = [data objectForKey:@"alert"];
+    [BaiDuPush receivePushMessages:msg];
+  }
+  
+  //杀死状态下，直接跳转到跳转页面。
+  if (application.applicationState == UIApplicationStateInactive)
+  {
+
+    NSDictionary* data = [userInfo objectForKey:@"aps"];
+    NSString* msg = [data objectForKey:@"alert"];
+    [BaiDuPush pushNotificationMessages:msg];
+
+  }
+  
+
+}
+
+
+// 在 iOS8 系统中，还需要添加这个方法。通过新的 API 注册推送服务
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+  
+  [application registerForRemoteNotifications];
+  
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+  NSLog(@"test:%@",deviceToken);
+  [BaiDuPush registerDeviceToken:deviceToken];
+
+}
+
+// 当 DeviceToken 获取失败时，系统会回调此方法
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+  NSLog(@"DeviceToken 获取失败，原因：%@",error);
+}
+
+
+   ```
+
+
+
+####打开该目录 ../node_modules/react-native-bdpush/ios/baidupush
+
+
+![Mou icon1](/assets/b1.png)
+
+
+![Mou icon1](/assets/b2.png)
+
+###../node_modules/react-native-bdpush/ios/baidupush/Push-Bridging-Header.h
+
+![Mou icon1](/assets/b3.png)
