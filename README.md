@@ -20,21 +20,32 @@ react-native百度云推送
 - `bindChannelWithCompleteHandler` - 重新启动推送
     - `@param` - Function - 回调函数
         - `@param` - int - 状态
+
+
 #    
+
+
 - `unbindChannelWithCompleteHandler` - 停止推送
     - `@param` - Function - 回调函数
         - `@param` - int - 状态
+
+
 #    
+
 - `setTag` - 设置tag
 	- `@param` - String - tag内容
     - `@param` - Function - 回调函数
         - `@param` - int - 状态
+
 #    
+
 - `delTag` - 删除tag
 	- `@param` - String - tag内容
     - `@param` - Function - 回调函数
         - `@param` - int - 状态
+
 # 
+
 
 ### 使用实例
 
