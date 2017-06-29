@@ -102,7 +102,9 @@ react-native百度云推送
     ```
     
 ![Mou icon1](/assets/a1.png)
-	
+
+![Mou icon1](/assets/a2.png)
+
 ![Mou icon1](/assets/a3.png)
 
 ![Mou icon1](/assets/a3.png)
