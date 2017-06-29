@@ -164,7 +164,7 @@ react-native百度云推送
 
 
    ```
-#####设置 Library Search Paths $(SRCROOT)/../node_modules/react-native-bdpush/ios/normalversion/（注意如果是发布版本请添加这行 $(SRCROOT)/../node_modules/react-native-bdpush/ios/idfaversion/）
+#####设置 Library Search Paths $(SRCROOT)/../node_modules/react-native-bdpush/ios/normalversion/ 注意如果是发布版本请添加这行 $(SRCROOT)/../node_modules/react-native-bdpush/ios/idfaversion/
 
 ![Mou icon1](/assets/b1.png)
 
