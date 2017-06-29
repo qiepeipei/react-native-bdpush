@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:react-native-bdpush"
+      name = "react-native-bdpush">
+      <FileRef
+         location = "group:BaiDuPushManager.h">
+      </FileRef>
+      <FileRef
+         location = "group:BaiDuPushManager.m">
+      </FileRef>
+   </Group>
+</Workspace>

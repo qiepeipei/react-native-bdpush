@@ -1,168 +1,72 @@
 # react-native-bdpush
 react-native百度云推送
 ### 导出方法
-- `penetrateEvent` - 监听透传消息
-    - `@param` - Function - 回调函数
-    	- `@param` - String - 消息内容
-
-
-# 
-
-
-- `pushEvent` - 监听通知栏点击
-    - `@param` - Function - 回调函数
-        - `@param` - String - 消息内容
-        
-        
-# 
-        
-        
-- `bindChannelWithCompleteHandler` - 重新启动推送
-    - `@param` - Function - 回调函数
-        - `@param` - int - 状态
-
-
-#    
-
-
-- `unbindChannelWithCompleteHandler` - 停止推送
-    - `@param` - Function - 回调函数
-        - `@param` - int - 状态
-
-
-#    
-
-- `setTag` - 设置tag
-	- `@param` - String - tag内容
-    - `@param` - Function - 回调函数
-        - `@param` - int - 状态
-
-#    
-
-- `delTag` - 删除tag
-	- `@param` - String - tag内容
-    - `@param` - Function - 回调函数
-        - `@param` - int - 状态
+- `monitorReceiveMessage` - 前台消息监听
+    - `@callBack` - Function - 回调函数
+    	- `@data` - Object - 消息内容
+    	    - `@title` - String - 消息标题 (只有android存在该字段)
+            - `@description` - String - 消息内容
+            - `@customContentString` - Object - 附加字段
 
 # 
 
+
+- `monitorReceiveMessage` - 点击通知栏消息监听
+    - `@callBack` - Function - 回调函数
+    	- `@data` - Object - 消息内容
+    	    - `@title` - String - 消息标题 (只有android存在该字段)
+            - `@description` - String - 消息内容
+            - `@customContentString` - Object - 附加字段
+
+# 
+        
+- `getChannelId` - 获取ChannelId
+    - `@callBack` - Function - 回调函数
+    	- `@data` - String - ChannelId
+
+# 
+
+- `monitorMessageCancel` - 取消消息监听
+
+# 
 
 ### 使用实例
 
-	var BaiDuPush = require('react-native-bdpush');
+	import BdPush from 'react-native-bdpush';
 	
-	   componentDidMount(){
-
-        //创建推送对象并初始化
-        this.bdpush = new BaiDuPush((state)=> {
-
-            if(state == 0){
-
-                console.log("初始化成功");
-
-                //设置tag
-                // this.bdpush.setTag("hello11",(state)=>{
-                //
-                //     if(state == 0){
-                //
-                //         console.log("tag设置成功");
-                //
-                //     }else{
-                //
-                //         console.log("tag设置失败");
-                //
-                //     }
-                //
-                //
-                // });
-
-
-                //删除tag
-                // this.bdpush.delTag("hello",(state)=>{
-                //
-                //   if(state == 0){
-                //
-                //     console.log("tag删除成功");
-                //
-                //   }else{
-                //
-                //     console.log("tag删除失败");
-                //
-                //   }
-                //
-                //
-                // });
-
-
-                //停止推送
-                // this.bdpush.unbindChannelWithCompleteHandler((state)=>{
-                //
-                //     if(state == 0){
-                //
-                //         console.log("停止推送成功");
-                //
-                //     }else{
-                //
-                //         console.log("停止推送失败");
-                //
-                //     }
-                //
-                //
-                // });
-
-                //重新开启推送
-                // this.bdpush.bindChannelWithCompleteHandler((state)=>{
-                //
-                //   if(state == 0){
-                //
-                //     console.log("重新开启推送成功");
-                //
-                //   }else{
-                //
-                //     console.log("重新开启推送失败");
-                //
-                //   }
-                //
-                //
-                // });
-
-
-
-            }else{
-
-                console.log("初始化失败");
-
-            }
-
+	constructor () {
+        super();
+        
+        //前台消息监听
+        BdPush.monitorReceiveMessage((message)=>{
+          console.log("前台消息="+JSON.stringify(message));
         });
-
-        //接收透传消息
-        this.bdpush.penetrateEvent((msg)=>{
-
-            console.log("透传消息==="+msg);
-
+    
+        //点击通知栏消息监听
+        BdPush.monitorBackstageOpenMessage((message)=>{
+          console.log("点击通知栏消息="+JSON.stringify(message));
         });
-
-        //接收通知栏点击消息
-        this.bdpush.pushEvent((msg)=>{
-
-            console.log("通知消息==="+JSON.stringify(msg));
-
+    
+        //获取ChannelId
+        BdPush.getChannelId().then((ChannelId)=>{
+          console.log("ChannelId="+ChannelId);
         });
-
+    
+        //取消消息监听
+        // BdPush.monitorMessageCancel();
+    
     }
-
+	 
 	
-	
-# npm install react-native-bdpush
+#使用方法
+## npm i react-native-bdpush -save
 ####android配置
 1. 设置 `android/setting.gradle`
 
     ```
     ...
-	include ':baidupush'
-	project(':baidupush').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-bdpush/android/baidupush')
-
+    include ':baidupush'
+    project(':baidupush').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-bdpush/android')
 	
     ```
 
@@ -179,7 +83,7 @@ react-native百度云推送
 3. 注册模块 (到 MainApplication.java)
 
     ```
-    import com.example.baidupush.PushPackage;  // <--- 导入
+    import com.example.qiepeipei.react_native_bdpush.BGBaiDuPushPackage;  // <--- 导入
 
     public class MainApplication extends Application implements ReactApplication {
       ......
@@ -188,7 +92,7 @@ react-native百度云推送
     	protected List<ReactPackage> getPackages() {
       		return Arrays.<ReactPackage>asList(
           			new MainReactPackage(),
-          			new PushPackage()      //<--- 添加
+          			new BGBaiDuPushPackage()      //<--- 添加
       		);
     	} 
 
@@ -199,7 +103,7 @@ react-native百度云推送
     
 ![Mou icon1](/assets/a1.png)
 	
-![Mou icon1](/assets/a2.png)
+![Mou icon1](/assets/a3.png)
 
 ![Mou icon1](/assets/a3.png)
 
@@ -208,80 +112,25 @@ react-native百度云推送
 
    ```
    
-   #define APPKEY @"当前用户的apiKey"
-   
-   	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:	(NSDictionary *)launchOptions{
-    ...
-	// 注册APNS
-  	[self registerUserNotification];
-  	  [BaiDuPush registerChannel:launchOptions apiKey:APPKEY pushMode:BPushModeDevelopment];
-  
-  [BaiDuPush disableLbs];
-  
-  // App 是用户点击推送消息启动
-  NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-  if (userInfo) {
-    //[BPush handleNotification:userInfo];
-    [BaiDuPush handleNotification:userInfo];
+#import "BaiDuPushManager.h"
 
-  }
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
 
-  //角标清0
-  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+  ...
   
-
+  //注册百度云推送
+  [BaiDuPushManager registerWithAppkey:@"输入你的API Key" launchOptions:launchOptions application:application];
+  
+  return YES;
 }
-
-
-	/** 注册用户通知 */
-- (void)registerUserNotification {
-  
-  /*
-   注册通知(推送)
-   申请App需要接受来自服务商提供推送消息
-   */
-  
-  // iOS8 下需要使用新的 API
-  if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-    UIUserNotificationType myTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-    
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:myTypes categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-  }else {
-    UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
-  }
-  
-
-}
-
-
 // 此方法是 用户点击了通知，应用在前台 或者开启后台并且应用在后台 时调起
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-  completionHandler(UIBackgroundFetchResultNewData);
-
-  // 应用在前台，不跳转页面，让用户选择。
-  if (application.applicationState == UIApplicationStateActive) {
-    
-    NSDictionary* data = [userInfo objectForKey:@"aps"];
-    NSString* msg = [data objectForKey:@"alert"];
-    [BaiDuPush receivePushMessages:msg];
-  }
   
-  //杀死状态下，直接跳转到跳转页面。
-  if (application.applicationState == UIApplicationStateInactive)
-  {
-
-    NSDictionary* data = [userInfo objectForKey:@"aps"];
-    NSString* msg = [data objectForKey:@"alert"];
-    [BaiDuPush pushNotificationMessages:msg];
-
-  }
+  [BaiDuPushManager application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
   
-
 }
-
 
 // 在 iOS8 系统中，还需要添加这个方法。通过新的 API 注册推送服务
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
@@ -289,34 +138,49 @@ react-native百度云推送
   
   [application registerForRemoteNotifications];
   
+  
 }
 
+//注册deviceToken
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-  NSLog(@"test:%@",deviceToken);
-  [BaiDuPush registerDeviceToken:deviceToken];
-
+  
+  [BaiDuPushManager application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  
 }
 
 // 当 DeviceToken 获取失败时，系统会回调此方法
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-  NSLog(@"DeviceToken 获取失败，原因：%@",error);
+  [BaiDuPushManager application:application didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+
 }
 
 
    ```
-
-
-
-####打开该目录 ../node_modules/react-native-bdpush/ios/baidupush
-
+#####设置 Library Search Paths $(SRCROOT)/../node_modules/react-native-bdpush/ios/normalversion/（注意如果是发布版本请添加这行 $(SRCROOT)/../node_modules/react-native-bdpush/ios/idfaversion/）
 
 ![Mou icon1](/assets/b1.png)
+
+####打开该目录 ../node_modules/react-native-bdpush/ios
 
 
 ![Mou icon1](/assets/b2.png)
 
-###../node_modules/react-native-bdpush/ios/baidupush/Push-Bridging-Header.h
 
 ![Mou icon1](/assets/b3.png)
+
+
+![Mou icon1](/assets/b4.png)
+
+
+![Mou icon1](/assets/b2.png)
+
+
+![Mou icon1](/assets/b5.png)
+
