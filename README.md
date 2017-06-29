@@ -107,7 +107,6 @@ react-native百度云推送
 
 ![Mou icon1](/assets/a3.png)
 
-![Mou icon1](/assets/a3.png)
 
 ###ios配置
 ####添加下面这段代码到AppDelegate.m下
