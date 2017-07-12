@@ -112,7 +112,7 @@ react-native百度云推送
 ####添加下面这段代码到AppDelegate.m下
 
    ```
-   
+#import "EBForeNotification.h"
 #import "BaiDuPushManager.h"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -122,7 +122,7 @@ react-native百度云推送
   
   //注册百度云推送
   [BaiDuPushManager registerWithAppkey:@"输入你的API Key" launchOptions:launchOptions application:application];
-  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eBBannerViewDidClick:) name:EBBannerViewDidClick object:nil];
   return YES;
 }
 // 此方法是 用户点击了通知，应用在前台 或者开启后台并且应用在后台 时调起
@@ -162,6 +162,11 @@ react-native百度云推送
 
 }
 
+-(void)eBBannerViewDidClick:(NSNotification*)noti{
+  
+  [BaiDuPushManager sendReceptionMsg];
+  
+}
 
    ```
 #####设置 Library Search Paths $(SRCROOT)/../node_modules/react-native-bdpush/ios/normalversion/ 注意如果是发布版本请添加这行 $(SRCROOT)/../node_modules/react-native-bdpush/ios/idfaversion/
